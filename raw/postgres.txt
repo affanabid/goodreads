@@ -1,0 +1,77 @@
+C:\Users\affan>docker exec -i pg psql -U root -d goodreads
+
+C:\Users\affan>docker exec -it pg psql -U root -d goodreads
+psql (15.15 (Debian 15.15-1.pgdg13+1))
+Type "help" for help.
+
+goodreads=# CREATE USER goodreads_user WITH PASSWORD 'goodreadsuser';
+CREATE ROLE
+
+goodreads=# GRANT ALL PRIVILEGES ON DATABASE goodreads TO goodreads_user;
+GRANT
+
+goodreads=# CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username TEXT UNIQUE NOT NULL,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT now()
+);
+CREATE TABLE
+
+goodreads=# CREATE TABLE follows (
+  follower_id INT REFERENCES users(id),
+  followee_id INT REFERENCES users(id),
+  created_at TIMESTAMP DEFAULT now(),
+  PRIMARY KEY (follower_id, followee_id)
+);
+CREATE TABLE
+
+goodreads=# ALTER TABLE users OWNER TO goodreads_user;
+ALTER TABLE
+
+goodreads=# ALTER TABLE follows OWNER TO goodreads_user;
+ALTER TABLE
+
+goodreads=# GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO goodreads_user;
+GRANT
+
+C:\Users\affan>docker exec pg psql -U goodreads_user -d goodreads -c \dt
+
+
+
+C:\Users\affan>docker exec pg psql -U goodreads_user -d goodreads -c \dt
+             List of relations
+ Schema |  Name   | Type  |     Owner
+--------+---------+-------+----------------
+ public | follows | table | goodreads_user
+ public | users   | table | goodreads_user
+(2 rows)
+
+
+C:\Users\affan>docker exec -it pg psql -U root -d goodreads
+psql (15.15 (Debian 15.15-1.pgdg13+1))
+Type "help" for help.
+
+goodreads=# CREATE TABLE reviews (
+  id SERIAL PRIMARY KEY,
+  user_id INT REFERENCES users(id) ON DELETE CASCADE NOT NULL,
+  book_id TEXT NOT NULL,
+  rating SMALLINT CHECK (rating >= 1 AND rating <= 5) NOT NULL,
+  review_text TEXT,
+  created_at TIMESTAMP DEFAULT now()
+);
+CREATE TABLE
+goodreads=# CREATE INDEX idx_reviews_book_user ON reviews (book_id, user_id);
+CREATE INDEX
+
+goodreads=# ALTER TABLE reviews OWNER TO goodreads_user;
+ALTER TABLE
+
+goodreads=# GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO goodreads_user;
+GRANT
+
+goodreads=# \dt
+
+
+goodreads=# \d reviews

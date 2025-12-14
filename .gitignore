@@ -1,0 +1,24 @@
+# Python/FastAPI/Server Exclusions
+# Dependencies
+__pycache__/
+*.pyc
+# Virtual environment directory
+.venv/
+env/
+.env
+server/.env
+# Database files (if local, which yours are not, but good practice)
+*.sqlite3
+
+# Node/React/Client Exclusions
+# Dependency directory
+FE/node_modules
+# Build output (Vite default)
+client/dist
+# Dependency lock files (optional, but can cause conflicts)
+client/package-lock.json
+
+# IDE and OS Exclusions
+.idea/
+.vscode/
+.DS_Store

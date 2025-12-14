@@ -1,0 +1,13 @@
+fastapi[all]
+uvicorn
+# Postgres
+asyncpg
+# MongoDB
+motor
+# Redis
+redis-py-cluster # for asyncio support
+# Neo4j
+neo4j
+# Utility
+pydantic
+python-dotenv

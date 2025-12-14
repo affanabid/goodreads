@@ -1,0 +1,19 @@
+[project]
+name = "polyglot-goodreads-mvp"
+version = "0.1.0"
+description = "A FastAPI backend using a polyglot persistence strategy."
+requires-python = ">=3.10"
+
+dependencies = [
+    "fastapi[all]",
+    "uvicorn[standard]",
+    "pydantic",
+    "python-dotenv",
+    "asyncpg",
+    "motor",
+    "redis==5.0.1", # <-- CORRECTED: Use string format
+    "neo4j",
+    "passlib>=1.7.4",
+    "python-jose>=3.5.0",
+    "starlette>=0.50.0",
+]

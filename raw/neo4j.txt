@@ -1,0 +1,2 @@
+MATCH (u2:User {id: 2})-[f:FOLLOWS]->(u5:User {id: 5})
+             RETURN u2.id AS FollowerID, type(f) AS Relationship, u5.id AS FolloweeID;

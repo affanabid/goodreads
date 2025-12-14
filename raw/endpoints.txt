@@ -1,0 +1,29 @@
+docker exec -it pg psql -U root -d goodreads
+
+
+
+POST - http://127.0.0.1:8000/auth/signup
+POST - http://127.0.0.1:8000/auth/login 
+{
+  "username": "testuser",
+  "email": "test@example.com",
+  "password": "securepassword123"
+}
+
+POST - http://127.0.0.1:8000/books
+{
+  "title": "Clean Slate Guide",
+  "author": "Affan",
+  "isbn": "9781111111111",
+  "publication_year": 2024
+}
+
+GET - http://127.0.0.1:8000/books/693d4105ffb592c5a0fc0caf/
+
+GET, POST - http://127.0.0.1:8000/books/693d4105ffb592c5a0fc0caf/reviews
+{
+  "rating": 5,
+  "review_text": "This book finally made Pydantic V2 make sense!"
+}
+
+POST - http://127.0.0.1:8000/users/2/follow
