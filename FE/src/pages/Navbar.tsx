@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
     return (
         <nav style={styles.navbar}>
             <div style={styles.logo}>
-                <Link to="/" style={styles.link}>Polyglot Goodreads</Link>
+                <Link to="/" style={styles.link}>Goodreads</Link>
             </div>
             <div style={styles.navLinks}>
                 <Link to="/" style={styles.link}>Books</Link>

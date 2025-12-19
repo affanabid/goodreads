@@ -6,9 +6,7 @@ from services import book_service, review_service, follow_service # All services
 from db.postgres import get_db
 from asyncpg import Connection
 from typing import List
-# from graph.neo4j import get_neo4j_driver_direct # No longer needed here, handled by service
-
-HARDCODED_USER_ID = 5
+from utils.auth_bearer import JWTBearer  # Import JWT authentication
 
 book_router = APIRouter(prefix="/books", tags=["Books & Reviews"])
 
@@ -57,12 +55,13 @@ async def list_all_books(limit: int = 10, skip: int = 0):
 async def post_review(
     book_id: str = Path(..., description="The Mongo ID of the book"),
     review_data: ReviewCreate = Body(...),
-    db: Connection = Depends(get_db)
+    db: Connection = Depends(get_db),
+    token_payload: dict = Depends(JWTBearer())  # JWT authentication
 ):
     """
     Allows a user to post a review (Postgres) and updates the Neo4j RATED graph.
     """
-    user_id = HARDCODED_USER_ID 
+    user_id = token_payload.get("user_id")  # Extract user_id from JWT token
 
     # 1. Check if the book exists in Mongo
     if await book_service.get_book_by_id(book_id) is None:

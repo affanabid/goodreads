@@ -2,8 +2,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { listReviews } from '../api/reviewService';
 import type { ReviewInDB } from '../types/ApiTypes';
-import { useAuth } from '../context/AuthContext'; // <-- NEW IMPORT
-import FollowButton from './FollowButton'; // <-- NEW IMPORT
+import { useAuth } from '../context/AuthContext';
+import FollowButton from './FollowButton';
+import { getUsernameById } from '../utils/userLookup';
 
 interface ReviewListProps {
     bookId: string;
@@ -17,7 +18,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ bookId, refreshTrigger }) => {
     const [error, setError] = useState<string | null>(null);
 
     const { isAuthenticated } = useAuth(); // <-- ACCESS AUTH CONTEXT
-    
+
     // This function is now the primary data fetcher
     const fetchReviews = useCallback(async () => {
         setLoading(true);
@@ -55,21 +56,22 @@ const ReviewList: React.FC<ReviewListProps> = ({ bookId, refreshTrigger }) => {
             {reviews.map((review) => (
                 <div key={review.id} style={styles.reviewCard}>
                     <div style={styles.reviewHeader}>
-                        <div style={{ display: 'flex', alignItems: 'center' }}>
-                            {/* Reviewer Identifier */}
-                            <span style={styles.username}>User ID: {review.user_id}</span>
-                            
-                            {/* 🌟 INTEGRATE FOLLOW BUTTON */}
-                            {/* Only show if authenticated */}
-                            {isAuthenticated && (
-                                <FollowButton reviewerId={review.user_id} />
-                            )}
+                        <div style={styles.reviewerInfo}>
+                            <span style={styles.username}>{getUsernameById(review.user_id)}</span>
                         </div>
-                        
-                        <span style={styles.rating}>⭐ {review.rating} / 5</span>
+
+                        <div style={styles.actions}>
+                            {isAuthenticated && (
+                                <div style={styles.followWrapper}>
+                                    <FollowButton reviewerId={review.user_id} />
+                                </div>
+                            )}
+                            <span style={styles.rating}>⭐ {review.rating} / 5</span>
+                        </div>
                     </div>
+
                     <p style={styles.reviewText}>{review.review_text}</p>
-                    <small>Posted on: {new Date(review.created_at).toLocaleDateString()}</small>
+                    <small style={styles.postedAt}>Posted on: {new Date(review.created_at).toLocaleDateString()}</small>
                 </div>
             ))}
         </div>
@@ -86,9 +88,13 @@ const styles: { [key: string]: React.CSSProperties } = {
         color: 'var(--text)'
     },
     reviewHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' },
-    username: { fontWeight: '600' },
+    reviewerInfo: { display: 'flex', alignItems: 'center', gap: 10 },
+    username: { fontWeight: 700, color: 'var(--text)' },
+    actions: { display: 'flex', alignItems: 'center', gap: 10 },
+    followWrapper: { display: 'flex', alignItems: 'center' },
     rating: { color: 'var(--accent-2)', fontWeight: 600 },
-    reviewText: { margin: '6px 0' },
+    reviewText: { margin: '6px 0', color: 'var(--text)' },
+    postedAt: { color: 'var(--muted)', fontSize: 12 },
 };
 
 export default ReviewList;

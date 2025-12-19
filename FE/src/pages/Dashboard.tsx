@@ -4,6 +4,7 @@ import { getFollowRecommendations, getBookRecommendations } from '../api/socialS
 import UserRecommendationCard from '../components/UserRecommendationCard';
 import BookRecommendationCard from '../components/BookRecommendationCard';
 import { useAuth } from '../context/AuthContext';
+import { getUsernameById } from '../utils/userLookup';
 
 const Dashboard: React.FC = () => {
     // NOTE: Hardcoded user ID 1 for demonstration, assuming the current user is ID 1.
@@ -17,13 +18,13 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         if (!isAuthenticated || !currentUserId) {
-             setLoading(false);
-             setError("Authentication error: User ID not available.");
-             return;
+            setLoading(false);
+            setError("Authentication error: User ID not available.");
+            return;
         }
         const fetchRecommendations = async () => {
             try {
-                console.log('--------------',currentUserId);
+                console.log('--------------', currentUserId);
                 // Fetch Neo4j Social Recommendations
                 const followData = await getFollowRecommendations(currentUserId);
                 setFollowRecs(followData);
@@ -53,7 +54,7 @@ const Dashboard: React.FC = () => {
 
     return (
         <div style={styles.container}>
-            <h1 style={styles.title}>Welcome to Your Dashboard, {currentUserId}</h1>
+            <h1 style={styles.title}>Welcome to Your Dashboard, {currentUserId ? getUsernameById(currentUserId) : 'Guest'}</h1>
             <p style={styles.subtitle}>Personalized recommendations from the social graph</p>
 
             <section>

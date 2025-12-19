@@ -5,14 +5,14 @@
 // For now, we use a simple hardcoded map based on typical test data.
 
 const USER_MOCK_MAP: Record<number, string> = {
-    1: 'TestUser1 (Me)',
-    2: 'Alice (Friend)',
-    3: 'Bob (Friend)',
-    4: 'Charlie (Friend)',
-    5: 'Dianne (Friend)',
-    // Add the user you signed up during Phase 1 testing
-    7: 'Jon (New User)',
-    // If you used your login email instead of username, adjust the ID here
+    1: 'Mark',
+    2: 'Alice',
+    3: 'Bob',
+    4: 'Charlie',
+    5: 'Dianne',
+    7: 'Jon',
+    8: 'Mike',
+    9: 'Sid'
 };
 
 export const getUsernameById = (userId: number): string => {

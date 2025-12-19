@@ -72,23 +72,23 @@ const FollowButton: React.FC<FollowButtonProps> = ({ reviewerId }) => {
 // Minimal inline styles
 const styles: { [key: string]: React.CSSProperties } = {
     button: {
-        padding: '5px 10px',
-        borderRadius: '4px',
+        padding: '6px 10px',
+        borderRadius: '8px',
         border: 'none',
         cursor: 'pointer',
         fontSize: '0.9em',
-        transition: 'background-color 0.2s',
-        marginLeft: '10px'
+        transition: 'background-color 0.15s, transform 0.12s',
+        marginLeft: '8px'
     },
     followButton: {
-        backgroundColor: '#007bff',
-        color: 'white',
-        border: '1px solid #007bff'
+        backgroundColor: 'rgba(108,142,245,0.12)',
+        color: 'var(--accent)',
+        border: '1px solid rgba(108,142,245,0.18)'
     },
     followingButton: {
-        backgroundColor: 'white',
-        color: '#666',
-        border: '1px solid #ccc',
+        backgroundColor: 'transparent',
+        color: 'var(--muted)',
+        border: '1px solid var(--card-border)',
         cursor: 'default',
     }
 };

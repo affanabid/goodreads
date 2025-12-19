@@ -4,8 +4,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getBookDetails } from '../api/bookService';
 import type { BookInDB } from '../types/ApiTypes';
 import { useAuth } from '../context/AuthContext';
-import ReviewForm from '../components/reviewForm';
-import ReviewList from '../components/reviewList';
+import ReviewForm from '../components/ReviewForm';
+import ReviewList from '../components/ReviewList';
 
 const BookDetailPage: React.FC = () => {
     const { bookId } = useParams<{ bookId: string }>();

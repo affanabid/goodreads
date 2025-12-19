@@ -8,11 +8,14 @@ load_dotenv()
 user = os.getenv("POSTGRES_USER", "postgres")
 password = os.getenv("POSTGRES_PASSWORD", "password")
 server = os.getenv("POSTGRES_HOST", "localhost")
-port = os.getenv("POSTGRES_PORT", "5432")
+port = os.getenv("POSTGRES_PORT", "5433")
 db = os.getenv("POSTGRES_DB", "goodreads")
 
 # Construct the DSN manually here using an f-string
 POSTGRES_DSN = f"postgresql://{user}:{password}@{server}:{port}/{db}"
+
+print(f"DEBUG: Attempting to connect with DSN: {POSTGRES_DSN}")
+
 db_pool: asyncpg.Pool = None
 
 async def connect_postgres():
